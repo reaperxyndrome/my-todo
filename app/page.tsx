@@ -1,8 +1,12 @@
 import Image from 'next/image'
 import PushPinIcon from '@mui/icons-material/PushPin';
-import { UploadForm } from './UploadForm';
-import { list } from 'postcss';
+// import { UploadForm } from './UploadForm';
+// import { list } from 'postcss';
+
+"use client"
 import { twMerge } from 'tailwind-merge';
+
+import { useState } from 'react';
 
 
 export default function Home() {
@@ -15,6 +19,8 @@ export default function Home() {
     deadline?: string;
   }
 
+
+  
   const Task:React.FC<TaskProps> = ({task_name, description, deadline}) => {
     const DeleteIcon:React.FC<StylableProps> = ({className}) => {
       return(
@@ -78,8 +84,37 @@ export default function Home() {
         </svg>
     )
   }
-    
   
+  const [showModal, setShowModal] = useState(false);
+
+  const handleAddTaskClick = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+  
+  const ModalDialog:React.FC<StylableProps> = ({className}) => {
+    return(
+      <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>
+          <div className='absolute w-full h-full bg-gray-900 opacity-50' onClick={handleModalClose}></div>
+          <div className='absolute z-100 bg-white rounded-lg w-1/3'>
+            <div className='flex justify-between items-center px-4 py-2 border-b'>
+              <h2 className='text-lg font-medium'>Add a new task</h2>
+              <button onClick={handleModalClose}>
+                <div className='w-6 h-6 cursor-pointer bg-[red]' />
+              </button>
+            </div>
+            <div className='p-4'>
+              <input type='text' placeholder='Task name' className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
+              <textarea placeholder='Task description' className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
+              <button className='bg-blue-500 text-white px-4 py-2 rounded-lg'>Add task</button>
+            </div>
+          </div>
+        </div>
+    )
+  }
   return (
     <main className='flex flex-col justify-center items-center py-[4rem] '>
       {/* <UploadForm></UploadForm> */}
@@ -94,7 +129,7 @@ export default function Home() {
           A TodoList App made just for you.
         </h2> 
       </div>
-      <div className='flex gap-x-9 items-center justify-center mb-[2rem] bg-[grey] hover:bg-[white] text-[white] hover:text-black hover:border-[5px] py-[1rem] px-[1rem] rounded-lg cursor-pointer'>        
+      <div className='flex gap-x-9 items-center justify-center mb-[2rem] bg-[grey] hover:bg-[white] text-[white] hover:text-black hover:border-[5px] py-[1rem] px-[1rem] rounded-lg cursor-pointer' onClick={handleAddTaskClick}>        
         <AddIcon className='w-[30px] h-[30px] ' />
         <h2 className='text-2xl font-medium'>Add a new task</h2>
       </div>
@@ -116,6 +151,9 @@ export default function Home() {
         <Task task_name='Task3'/>
         <Task task_name='Task4'/>
       </div>
+      {showModal && (
+        <ModalDialog></ModalDialog>
+      )}
     </main>
   )
 }
