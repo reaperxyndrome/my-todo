@@ -1,11 +1,11 @@
-import prisma from './db';
+import prisma from '../../lib/prisma';
 import { GetServerSideProps } from 'next';
 
 
 "use client"
 import Task from './Task';
 
-import ModalDialog from './ModalDialog';
+import TaskDialog from './AddTaskDialog';
 
 import { useState } from 'react';
 
@@ -84,7 +84,7 @@ export default function Home() {
         <Task task_name='Task4'/>
       </div>
       {showModal && (
-        <ModalDialog onClose={handleModalClose}></ModalDialog>
+        <TaskDialog onClose={handleModalClose}></TaskDialog>
       )}
     </main>
   )
