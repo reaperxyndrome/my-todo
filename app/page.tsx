@@ -1,38 +1,30 @@
-import prisma from '../../lib/prisma';
+import prisma from '../lib/prisma';
 import { GetServerSideProps } from 'next';
 
 
 "use client"
-import Task from './Task';
+import Task from './home/Task';
 
-import TaskDialog from './AddTaskDialog';
+// "use client"
+import TaskDialog from './home/AddTaskDialog';
 
-import { useState } from 'react';
+// "use client"
+import { useEffect, useState } from 'react';
+interface StylableProps{
+  className?: string;
+}
+interface TaskProps{
+  task_name: string;
+  description?: string;
+  date?: string;
+  time?: string;
+}
 
-export default function Home() {
-  interface StylableProps{
-    className?: string;
-  }
-  interface TaskProps{
-    task_name: string;
-    description?: string;
-    date?: string;
-    time?: string;
-  }
-  
-  interface addTaskProps extends TaskProps{
-    task_list: any[];
-  }
+interface addTaskProps extends TaskProps{
+  task_list: any[];
+}
 
-  // function addTask(task_name: string, description :string, deadline: string) {
-  //   var task = {
-  //       task_name: task_name,
-  //       description: description,
-  //       deadline: deadline,
-  //   };
-  //   taskList.push(task);
-  // }
-
+export default function Home() {  
   const AddIcon:React.FC<StylableProps> = () => {
     return(
         <svg className="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -40,7 +32,17 @@ export default function Home() {
         </svg>
     )
   }
+
   
+  useEffect(() => {
+    // async function getAllTasks(){
+    //   return await prisma.task.findMany()
+    // }
+  
+    // const tasks = getAllTasks()
+    // console.log(tasks)  
+  })
+
   const [showModal, setShowModal] = useState(false);
 
   const handleAddTaskClick = () => {

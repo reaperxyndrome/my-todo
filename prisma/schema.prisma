@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Todo {
+model Task {
   id        String   @id @default(uuid())
   title     String
   complete  Boolean
