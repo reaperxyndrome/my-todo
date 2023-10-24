@@ -38,3 +38,4 @@ next-env.d.ts
 dev.db*
 pages/test
 *Dockerfile*
+test/
