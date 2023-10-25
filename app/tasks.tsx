@@ -7,11 +7,17 @@ async function getAllTasks(){
 
 const Tasks = async () => {
     const tasks = await getAllTasks();
-    console.log(tasks)
+    console.log(tasks[0].createdAt.toLocaleDateString())
+    console.log(tasks[0].createdAt.toLocaleTimeString())
     return (
         <div className='flex flex-col gap-y-5 bg-[grey] px-5 py-5 rounded-lg w-[50rem]'>
             {tasks.map((task) => 
-            <Task key={task.id} task_name={task.title} />
+
+            <Task key={task.id}
+                task_name={task.title}
+                description={task.description}
+                date={task.createdAt.toLocaleDateString()}
+                time={task.createdAt.toLocaleTimeString()}/>
             )}
         </div>
     )
