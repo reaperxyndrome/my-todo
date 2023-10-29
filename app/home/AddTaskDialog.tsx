@@ -1,4 +1,6 @@
-// import { useState } from "react";
+"use client"
+import { useState } from "react";
+import prisma from "@/lib/prisma";
 
 interface StylableProps{
     className?: string;
@@ -17,6 +19,27 @@ const CloseIcon = () => {
 }
 
 const TaskDialog:React.FC<TaskDialogProps> = ({className, onClose}) => {
+  // async function getAllTasks(){
+  //   return await prisma.task.create({
+  //     data:{
+  //       title: taskName,
+  //       description: description,
+  //       date: date,
+  //       time: time,
+
+  //     },
+  //   })
+  // }
+  const [taskName, setTaskName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [date, setDate] = useState<string>('');
+  const [time, setTime] = useState<string>('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const task = {taskName, description, date, time}
+    console.log(task);
+  }
   return(
     <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>
         <div className='absolute w-full h-full bg-gray-900 opacity-50' onClick={onClose}></div>
@@ -27,15 +50,17 @@ const TaskDialog:React.FC<TaskDialogProps> = ({className, onClose}) => {
               <CloseIcon></CloseIcon>
             </button>
           </div>
-          <div className='flex flex-col p-4'>
-            <input type='text' placeholder='Task name' className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
-            <textarea placeholder='Task description' className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
+          <form onSubmit={handleSubmit} className='flex flex-col p-4'>
+            <input type='text' onChange={(e) => setTaskName(e.target.value)} required placeholder='Task name'
+             className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
+            <textarea onChange={(e) => setDescription(e.target.value)} placeholder='Task description' value={description} className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
             <div className='flex justify-between mb-4'>
-              <input type='date'></input>
-              <input type='time'></input>
+              <input type='date' onChange={(e) => setDate(e.target.value)} className="cursor-pointer"/>
+              <input type='time' onChange={(e) => setTime(e.target.value)} className="cursor-pointer"/>
             </div>
-            <button className='bg-blue-500 text-white px-4 py-2 rounded-lg'>Add task</button>
-          </div>
+            <input type="submit" value="Add Task"
+             className='bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer'/>
+          </form>
         </div>
       </div>
   )
