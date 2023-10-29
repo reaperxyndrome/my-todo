@@ -16,5 +16,7 @@ model Task {
   description String   @default("New Description")
   complete    Boolean
   createdAt   DateTime @default(now())
+  date        String   @default("2021-01-01")
+  time        String   @default("00:00:00")
   updatedAt   DateTime @updatedAt
 }
