@@ -1,3 +1,4 @@
+"use client"
 import { twMerge } from 'tailwind-merge';
 
 interface StylableProps{
@@ -5,18 +6,46 @@ interface StylableProps{
 }
 
 interface TaskProps{
-    task_name: string;
-    description?: string;
-    date?: string;
-    time?: string;
+  id: string,
+  task_name: string;
+  description?: string;
+  date?: string;
+  time?: string;
 }
 
-const DeleteIcon:React.FC<StylableProps> = ({className}) => {
-    return(
-        <svg className= {twMerge("w-6 h-6 text-[red]", className)}  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+interface IconProps extends StylableProps{
+  onClick: () => Promise<void>;
+}
+
+interface DeleteIconProps extends StylableProps{
+  id: string
+}
+
+const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
+  const handleDelete = async () => {
+    console.log("Deleting task")
+    try {
+      const response = await fetch(`/api/task/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete task');
+      }
+      console.log('Received response from server:', response.json());
+      // comment window.location.reload() to debug
+      window.location.reload();
+      // Handle successful deletion (e.g., refresh the page or remove the task from state)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  return(
+      <svg className= {twMerge("w-6 h-6 text-[red]", className)}  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20" onClick={handleDelete}>
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-        </svg>
-    )
+      </svg>
+  )
 }
 const EditIcon:React.FC<StylableProps> = ({className}) => {
     return(
@@ -35,9 +64,17 @@ const StarOutlineIcon:React.FC<StylableProps> = ({className}) => {
     )
 }
 
-const IconGroup: React.FC = () => (
+interface IconGroupProps{
+  // handleDelete: () => Promise<void>,
+  // handleEdit?: () => Promise<void>,
+  // handleStar?: () => Promise<void>,
+  id:string,
+
+}
+
+const IconGroup: React.FC<IconGroupProps> = ({id}) => (
   <>
-    <DeleteIcon className='hidden group-hover:block absolute top-[1rem] right-[1rem] cursor-pointer'></DeleteIcon>
+    <DeleteIcon className='hidden group-hover:block absolute top-[1rem] right-[1rem] cursor-pointer' id={id}></DeleteIcon>
     <EditIcon className='hidden group-hover:block absolute top-[1rem] right-[3rem] cursor-pointer'></EditIcon>
     <StarOutlineIcon className='hidden group-hover:block absolute top-[1rem] right-[5rem] cursor-pointer'></StarOutlineIcon>
   </>
@@ -47,18 +84,56 @@ const TaskDetail: React.FC<{ detail?: string }> = ({ detail }) => (
   detail && <p className='mt-[1rem]'>{detail}</p>
 )
 
-const Task:React.FC<TaskProps> = ({task_name, description, date, time}) => {
-    return(
-      <div className='relative group bg-[black] hover:bg-white text-[white] hover:text-black px-[1rem] hover:border-black hover:border-[2px] py-[1rem] rounded-lg'>
-        <IconGroup/>
-        <h3 className='font-bold'>{task_name}</h3>
-        <TaskDetail detail={description} />
-        <div className='flex gap-x-4 justify-end'>
-          <TaskDetail detail={date} />
-          <TaskDetail detail={time} />  
-        </div>
+const Task:React.FC<TaskProps> = ({id, task_name, description, date, time}) => {
+  const handleDelete = async () => {
+    console.log("Deleting task")
+    try {
+      const response = await fetch(`/api/task/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete task');
+      }
+      console.log('Received response from server:', response.json());
+      // comment window.location.reload() to debug
+      window.location.reload();
+      // Handle successful deletion (e.g., refresh the page or remove the task from state)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEdit = async () => {
+    console.log("Deleting task")
+    try {
+      const response = await fetch(`/api/task/${id}`, {
+        method: 'PUT',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete task');
+      }
+      console.log('Received response from server:', response.json());
+      // comment window.location.reload() to debug
+      window.location.reload();
+      // Handle successful deletion (e.g., refresh the page or remove the task from state)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return(
+    <div className='relative group bg-[black] hover:bg-white text-[white] hover:text-black px-[1rem] hover:border-black hover:border-[2px] py-[1rem] rounded-lg'>
+      <IconGroup id={id}/>
+      <h3 className='font-bold'>{task_name}</h3>
+      <TaskDetail detail={description} />
+      <div className='flex gap-x-4 justify-end'>
+        <TaskDetail detail={date} />
+        <TaskDetail detail={time} />  
       </div>
-    )
-  }
+    </div>
+  )
+}
 
 export default Task;
