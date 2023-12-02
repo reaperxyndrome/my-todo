@@ -19,6 +19,6 @@ export async function DELETE(
   } catch (error) {
     // Handle error
     console.error(error)
-    return NextResponse.json({error: 'Failed to delete task' }).status
+    return NextResponse.json({error: 'Failed to delete task' })
   }
 }

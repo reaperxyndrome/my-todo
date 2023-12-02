@@ -21,7 +21,7 @@ export async function POST(
           complete: complete,
       },
     })
-    console.log(NextResponse.json(result).status)
+    // console.log(NextResponse.json(result).status)
     return NextResponse.json(result)
   }
   catch (error) {
