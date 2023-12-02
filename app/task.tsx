@@ -35,25 +35,28 @@ const StarOutlineIcon:React.FC<StylableProps> = ({className}) => {
     )
 }
 
+const IconGroup: React.FC = () => (
+  <>
+    <DeleteIcon className='hidden group-hover:block absolute top-[1rem] right-[1rem] cursor-pointer'></DeleteIcon>
+    <EditIcon className='hidden group-hover:block absolute top-[1rem] right-[3rem] cursor-pointer'></EditIcon>
+    <StarOutlineIcon className='hidden group-hover:block absolute top-[1rem] right-[5rem] cursor-pointer'></StarOutlineIcon>
+  </>
+)
+
+const TaskDetail: React.FC<{ detail?: string }> = ({ detail }) => (
+  detail && <p className='mt-[1rem]'>{detail}</p>
+)
+
 const Task:React.FC<TaskProps> = ({task_name, description, date, time}) => {
     return(
       <div className='relative group bg-[black] hover:bg-white text-[white] hover:text-black px-[1rem] hover:border-black hover:border-[2px] py-[1rem] rounded-lg'>
-        <DeleteIcon className='hidden group-hover:block absolute top-[1rem] right-[1rem] cursor-pointer'></DeleteIcon>
-        <EditIcon className='hidden group-hover:block absolute top-[1rem] right-[3rem] cursor-pointer'></EditIcon>
-        <StarOutlineIcon className='hidden group-hover:block absolute top-[1rem] right-[5rem] cursor-pointer'></StarOutlineIcon>
+        <IconGroup/>
         <h3 className='font-bold'>{task_name}</h3>
-        {
-          description && 
-          <p className='mt-[1rem]'>{description}</p>
-        }
-        {
-          date && 
-          <p className='mt-[1rem]'>{date}</p>
-        }
-        {
-          time && 
-          <p className='mt-[1rem]'>{time}</p>
-        }
+        <TaskDetail detail={description} />
+        <div className='flex gap-x-4 justify-end'>
+          <TaskDetail detail={date} />
+          <TaskDetail detail={time} />  
+        </div>
       </div>
     )
   }
