@@ -13,8 +13,9 @@ export async function DELETE(
         id: id
       }
     })
-
-    return NextResponse.json({message: "Task deleted successfully:", task: deleted})
+    const response = NextResponse.json({message: "Task deleted successfully:", task: deleted})
+    console.log(response.status)
+    return response
   } catch (error) {
     // Handle error
     console.error(error)
