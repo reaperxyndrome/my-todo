@@ -1,12 +1,12 @@
 import prisma from '@/lib/prisma';
 import Task from './task';
 
-async function getAllTasks(){
-    return await prisma.task.findMany()
-}
+// async function getAllTasks(){
+//     return await prisma.task.findMany()
+// }
 
 const Tasks = async () => {
-    const tasks = await getAllTasks();
+    const tasks = await prisma.task.findMany();
     console.log(tasks[0].createdAt.toLocaleDateString())
     console.log(tasks[0].createdAt.toLocaleTimeString())
     return (
