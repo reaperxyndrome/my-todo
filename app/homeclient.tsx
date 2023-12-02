@@ -1,5 +1,5 @@
 "use client"
-import TaskDialog from './home/AddTaskDialog';
+import TaskDialog from './AddTaskDialog';
 import {useState } from 'react';
 interface StylableProps{
   className?: string;
