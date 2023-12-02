@@ -28,7 +28,7 @@ interface Task {
 // FIXME: prisma.task.create produces an error 
 async function createTask(task : Task) {
   console.log('Sending task to server:', task);
-  const response = await fetch('/api/addTask', {
+  const response = await fetch('/api/task', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(task),
@@ -42,26 +42,35 @@ async function createTask(task : Task) {
 }
 
 
-// FIXME: CODE COMPLEXITY IS 16
+// FIXME: CODE COMPLEXITY IS 18
 const TaskForm:React.FC = () => {
   const [title, setTaskName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [time, setTime] = useState<string>('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const task = {title, description, date, time, complete: false}
-  
+  async function createTask(e: React.FormEvent) {
     try{
-      await createTask(task);
+      e.preventDefault();
+      const task = {title, description, date, time, complete: false}
+      console.log('Sending task to server:', task);
+      const response = await fetch('/api/task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      // const responseData = await response.json();
+      // console.log(responseData)
     } catch (error){
       console.error(error)
     }
   }
 
   return(
-    <form onSubmit={handleSubmit} className='flex flex-col p-4'>
+    <form onSubmit={createTask} className='flex flex-col p-4'>
       <input type='text' onChange={(e) => setTaskName(e.target.value)}
         required 
         placeholder='Task name'
