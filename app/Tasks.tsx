@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import Task from './myTask';
+import Task from './Task';
 
 // async function getAllTasks(){
 //     return await prisma.task.findMany()
