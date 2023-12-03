@@ -17,32 +17,7 @@ const CloseIcon = () => {
     </svg>
   )
 }
-interface Task {
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  complete: Boolean;
-}
 
-// FIXME: prisma.task.create produces an error 
-async function createTask(task : Task) {
-  console.log('Sending task to server:', task);
-  const response = await fetch('/api/task', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(task),
-  });
-  console.log('Received response from server:', response);
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  console.log(response.json())
-  return response.json();
-}
-
-
-// FIXME: CODE COMPLEXITY IS 18
 const TaskForm:React.FC = () => {
   const [title, setTaskName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
