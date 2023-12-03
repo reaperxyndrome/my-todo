@@ -5,12 +5,15 @@ interface StylableProps{
     className?: string;
 }
 
-interface TaskProps{
+export interface TaskProps{
   id: string,
-  task_name: string;
+  title: string;
   description?: string;
   date?: string;
   time?: string;
+  complete: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface IconProps extends StylableProps{
@@ -65,9 +68,6 @@ const StarOutlineIcon:React.FC<StylableProps> = ({className}) => {
 }
 
 interface IconGroupProps{
-  // handleDelete: () => Promise<void>,
-  // handleEdit?: () => Promise<void>,
-  // handleStar?: () => Promise<void>,
   id:string,
 
 }
@@ -84,7 +84,7 @@ const TaskDetail: React.FC<{ detail?: string }> = ({ detail }) => (
   detail && <p className='mt-[1rem]'>{detail}</p>
 )
 
-const Task:React.FC<TaskProps> = ({id, task_name, description, date, time}) => {
+const Task:React.FC<TaskProps> = ({id, title: task_name, description, date, time, complete}) => {
   const handleEdit = async () => {
     console.log("Deleting task")
     try {
