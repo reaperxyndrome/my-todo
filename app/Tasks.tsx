@@ -1,29 +1,51 @@
-import prisma from '@/lib/prisma';
+"use client"
 import Task from './Task';
+import { useEffect, useState } from 'react';
 
-// async function getAllTasks(){
-//     return await prisma.task.findMany()
-// }
+import { TaskProps } from './Task';
 
-const Tasks = async () => {
-  const tasks = await prisma.task.findMany();
-  if (tasks.length > 0) {
-    console.log(tasks[0].createdAt.toLocaleTimeString())
-    console.log(tasks[0].createdAt.toLocaleDateString())
-  } else {
-    console.log('No tasks available');
+const Tasks = () => {
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
+
+  useEffect(() => {
+    getAllTasks()
+  }, [])
+
+  async function getAllTasks() {
+    try {
+      const response = await fetch('/api/task', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const responseData = await response.json();
+      console.log(typeof responseData[0].createdAt)
+      setTasks(responseData);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
   return (
     <div className='flex flex-col gap-y-5 bg-[grey] px-5 py-5 rounded-lg w-[50rem]'>
-      {tasks.map((task) => 
-
-      <Task key={task.id}
-        id={task.id}
-        task_name={task.title}
-        description={task.description}
-        date={task.createdAt.toLocaleDateString()}
-        time={task.createdAt.toLocaleTimeString()}/>
-      )}
+      {tasks.map((task) => {
+      const createdAt = new Date(task.createdAt);
+      const updatedAt = new Date(task.updatedAt);
+      return (
+        <Task key={task.id}
+          id={task.id}
+          title={task.title}
+          description={task.description}
+          date={createdAt.toLocaleDateString()}
+          time={createdAt.toLocaleTimeString()}
+          complete={task.complete}
+          createdAt={createdAt.toString()}
+          updatedAt={updatedAt.toString()}
+        />
+      );
+    })}
     </div>
   )
 }
