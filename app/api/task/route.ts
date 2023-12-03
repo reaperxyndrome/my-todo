@@ -30,3 +30,12 @@ export async function POST(
   }
 }
 
+export async function GET() {
+  try {
+    const tasks = await prisma.task.findMany();
+    return NextResponse.json(tasks);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'An error occurred while fetching the tasks' });
+  }
+}
