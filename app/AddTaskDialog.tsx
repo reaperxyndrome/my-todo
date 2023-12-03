@@ -75,7 +75,7 @@ const DialogHeader: React.FC<{ onClose: Function }> = ({ onClose }) => (
   </div>
 )
 
-const TaskDialog:React.FC<TaskDialogProps> = ({className, onClose}) => {
+const AddTaskDialog:React.FC<TaskDialogProps> = ({className, onClose}) => {
   return(
     <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>
       <div className='absolute w-full h-full bg-gray-900 opacity-50'
@@ -88,4 +88,4 @@ const TaskDialog:React.FC<TaskDialogProps> = ({className, onClose}) => {
   )
 }
 
-export default TaskDialog;
+export default AddTaskDialog;
