@@ -7,18 +7,6 @@ interface StylableProps{
   className?: string;
 }
 
-interface TaskContextProps {
-  editTask: TaskProps | undefined;
-  handleEditTask: (task: TaskProps) => void;
-  setEditTask: Dispatch<SetStateAction<TaskProps | undefined>>;
-};
-
-export const TaskContext = createContext<TaskContextProps>({
-  editTask: undefined,
-  handleEditTask: () => {},
-  setEditTask: () => {},
-});
-
 
 
 // TODO: Implement edit task using ContextAPI
@@ -59,9 +47,7 @@ export default function HomePage() {
         <AddIcon />
         <h2 className='text-2xl font-medium'>Add a new task</h2>
       </div>
-      <TaskContext.Provider value={{editTask, setEditTask, handleEditTask}}>
-        <Tasks/>
-      </TaskContext.Provider>
+      <Tasks/>
       
       {showAddTask && (
         <AddTaskDialog onClose={handleModalClose}></AddTaskDialog>

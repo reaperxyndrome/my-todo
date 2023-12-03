@@ -1,6 +1,5 @@
 "use client"
 import { twMerge } from 'tailwind-merge';
-import { TaskContext } from './page';
 import { useContext, useState } from 'react';
 
 interface StylableProps{
@@ -60,7 +59,6 @@ const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
 
 // TODO: Implement edit task
 const EditIcon:React.FC<DeleteIconProps> = ({className, id}) => {
-  const { editTask, handleEditTask, setEditTask} = useContext(TaskContext);
   const handleEdit = () => {
     console.log(id)
   }
