@@ -1,12 +1,33 @@
 "use client"
-import TaskDialog from './AddTaskDialog';
-import {useState } from 'react';
+import AddTaskDialog from './AddTaskDialog';
+import {Dispatch, SetStateAction, createContext, useState } from 'react';
 import Tasks from "./Tasks"
+import { TaskProps } from './Task';
 interface StylableProps{
   className?: string;
 }
 
-export default function HomeClient() {
+interface TaskContextProps {
+  editTask: TaskProps | undefined;
+  handleEditTask: (task: TaskProps) => void;
+  setEditTask: Dispatch<SetStateAction<TaskProps | undefined>>;
+};
+
+export const TaskContext = createContext<TaskContextProps>({
+  editTask: undefined,
+  handleEditTask: () => {},
+  setEditTask: () => {},
+});
+
+
+
+// TODO: Implement edit task using ContextAPI
+export default function HomePage() {
+  const [editTask, setEditTask] = useState<TaskProps>();
+  const handleEditTask = (task: TaskProps) => {
+    setEditTask(task);
+    // logic to open the dialog
+  };
   const AddIcon:React.FC<StylableProps> = () => {
     return(
       <svg className="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -14,7 +35,7 @@ export default function HomeClient() {
       </svg>
     )
   }  
-  const [showModal, setShowModal] = useState(false);
+  const [showAddTask, setShowModal] = useState(false);
 
   const handleAddTaskClick = () => {
     setShowModal(true);
@@ -38,12 +59,13 @@ export default function HomeClient() {
         <AddIcon />
         <h2 className='text-2xl font-medium'>Add a new task</h2>
       </div>
-      <Tasks/>
-
-      {showModal && (
-        <TaskDialog onClose={handleModalClose}></TaskDialog>
+      <TaskContext.Provider value={{editTask, setEditTask, handleEditTask}}>
+        <Tasks/>
+      </TaskContext.Provider>
+      
+      {showAddTask && (
+        <AddTaskDialog onClose={handleModalClose}></AddTaskDialog>
       )}
-      {/* <Tasks/> */}
       
     </main>
   )
