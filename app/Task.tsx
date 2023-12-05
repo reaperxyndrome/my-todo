@@ -147,7 +147,7 @@ interface formFieldProps{
 }
 
 interface TaskEditModeProps{
-  formFields: formFieldProps[],
+  editedTask: TaskProps,
   eventHandlers: {
     handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleInputFocus: () => void,
@@ -155,12 +155,18 @@ interface TaskEditModeProps{
   }
 
 }
-const TaskEditMode:React.FC<TaskEditModeProps> = ({formFields, eventHandlers}) => {
+const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) => {
+  const formFields = [
+    { id: 'task_name', label: 'Task Name', value: editedTask.task_name, type: 'text' },
+    { id: 'description', label: 'Description', value: editedTask.description, type: 'text' },
+    { id: 'date', label: 'Date', value: editedTask.date, type: 'text' },
+    { id: 'time', label: 'Time', value: editedTask.time, type: 'text' },
+  ];
   return(
     <form>
       <div className='flex flex-col gap-y-[2px]'>
       {formFields.map(field => (
-        <div key={field.id}>
+        <div className='flex justify-between w-[330px]' key={field.id}>
           <label htmlFor={field.id} className='font-bold'>
             {field.label}:
           </label>
@@ -186,18 +192,24 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({formFields, eventHandlers}) =
 const Task:React.FC<TaskProps> = ({id, title: task_name, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ task_name, description, date, time });
-  const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
+  // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
   const task = {task_name, description, date, time, complete}
+
   const handleEditClick:MouseEventHandler<SVGElement> = () => {
-    setIsEditing(true);
     editTimeoutRef.current = setTimeout(() => {
       // Code to execute when the timer ends
       setIsEditing(false)
-      console.log('Timer ended');
+      setEditedTask(task)
     }, 2000);
+    setIsEditing(true);
+    // console.log("Currently Editing")
     console.log(`Editing task ${id}: ${isEditing}`)
-    console.log(id)
   };
+
+  useEffect(() => {
+    console.log(isEditing ? "Editing" : "Read Mode")
+    console.log(editedTask)
+  }, [isEditing, editedTask])
 
   const editTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInputFocusedRef = useRef(false);
@@ -223,14 +235,47 @@ const Task:React.FC<TaskProps> = ({id, title: task_name, description, date, time
       if (!isInputFocusedRef.current) {
         // Save the edited task here
         setIsEditing(false);
+        setEditedTask(task);
         console.log(`Task ${id} in read mode`)
       }
     }, 500);
   };
 
-  useEffect(() => {
-    setInitialTask(editedTask);
-  }, [editedTask]);
+  const handleSaveTask = async () => {
+    // Update the task with the new values
+    // This will depend on how you're managing your tasks
+    // For example, if you're using a state hook to manage your tasks, you might do something like this:
+    // setTasks(tasks.map(task => task.id === id ? editedTask : task));
+    // try {
+    //   const response = await fetch(`/api/task/${id}`, {
+    //     method: 'PUT', // or 'PUT' if you're updating an existing task
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(editedTask),
+    //   });
+  
+    //   if (!response.ok) {
+    //     throw new Error('Failed to save task');
+    //   }
+  
+    //   const data = await response.json();
+    //   console.log('Saved task:', data);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
+    // Clear the timeout if it's still running
+    if (editTimeoutRef.current) {
+      clearTimeout(editTimeoutRef.current);
+    }
+  
+    // Switch back to read mode
+    setIsEditing(false);
+  };
+
+  // useEffect(() => {
+  //   setEditedTask(editedTask);
+  // }, [editedTask]);
   
   useEffect(() => {
     return () => {
@@ -242,18 +287,16 @@ const Task:React.FC<TaskProps> = ({id, title: task_name, description, date, time
   }, []);
 
   const eventHandlers = {handleInputChange, handleInputFocus, handleInputBlur}
-  const formFields = [
-    { id: 'task_name', label: 'Task Name', value: editedTask.task_name, type: 'text' },
-    { id: 'description', label: 'Description', value: editedTask.description, type: 'text' },
-    { id: 'date', label: 'Date', value: editedTask.date, type: 'text' },
-    { id: 'time', label: 'Time', value: editedTask.time, type: 'text' },
-  ];
 
   return(
     <div className='relative group bg-[black] hover:bg-white text-[white] hover:text-black px-[1rem] hover:border-black hover:border-[2px] py-[1rem] rounded-lg'>
       <IconGroup id={id} handleEditClick={handleEditClick}/>
       {isEditing ? (
-        <TaskEditMode formFields={formFields} eventHandlers={eventHandlers}/>
+        <div className='flex flex-col gap-y-2'>
+          <TaskEditMode editedTask={editedTask} eventHandlers={eventHandlers}/>
+          <button className='self-end bg-[#c85454] p-2 rounded-md w-[120px]' onClick={handleSaveTask}>Save Task</button>
+        </div>
+        
       ) : (
         <TaskReadMode task={task}/>
       )}
