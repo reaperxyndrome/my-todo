@@ -8,6 +8,7 @@ const Tasks = () => {
   const [tasks, setTasks] = useState<TaskProps[]>([]);
 
   useEffect(() => {
+    console.log("getting tasks")
     getAllTasks()
   }, [])
 
@@ -31,8 +32,8 @@ const Tasks = () => {
   return (
     <div className='flex flex-col gap-y-5 bg-[grey] px-5 py-5 rounded-lg w-[50rem]'>
       {tasks.map((task) => {
-      const createdAt = new Date(task.createdAt);
-      const updatedAt = new Date(task.updatedAt);
+      const createdAt = new Date(task.createdAt ? task.createdAt : 0);
+      const updatedAt = new Date(task.updatedAt? task.updatedAt : 0);
       return (
         <Task key={task.id}
           id={task.id}
