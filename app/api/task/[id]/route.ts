@@ -23,7 +23,6 @@ export async function DELETE(
   }
 }
 
-// TODO: add PUT route to update task
 export async function PUT(req: NextRequest) {
   const { id, title, description, date, time, complete } = await req.json();
   try {

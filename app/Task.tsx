@@ -60,10 +60,7 @@ const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
 }
 
 // TODO: Implement edit task
-const EditIcon:React.FC<EditIconProps> = ({className, id, onClick}) => {
-  const handleEdit = () => {
-    console.log(id)
-  }
+const EditIcon:React.FC<EditIconProps> = ({className, onClick}) => {
   return(
     <svg onClick={onClick} className={twMerge("w-6 h-6 text-gray-400", className)} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"> 
       <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
@@ -86,7 +83,6 @@ interface IconGroupProps{
   handleEditClick: MouseEventHandler<SVGElement>
 }
 
-// TODO: refactor this component
 const IconGroup: React.FC<IconGroupProps> = ({id, handleEditClick}) => (
   <>
     <DeleteIcon className='hidden group-hover:block absolute top-[1rem] right-[1rem] cursor-pointer' id={id}></DeleteIcon>
@@ -108,28 +104,13 @@ interface EditTaskInputProps{
   onBlur: () => void,
 }
 
-const EditTaskInput:React.FC<EditTaskInputProps> = ({value, name, label, onChange, onFocus, onBlur}) => {
-  return(
-    <label>{label}
-      <input
-        type="text"
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
-    </label>
-  )
-}
 interface TaskReadMode {
   task: TaskProps
 }
 const TaskReadMode: React.FC<TaskReadMode>= ({task}) => {
   return(
     <>
-      <h3 className='font-bold'>{task.task_name}</h3>
+      <h3 className='font-bold'>{task.title}</h3>
       <TaskDetail detail={task.description} />
       <div className='flex gap-x-4 justify-end'>
         <TaskDetail detail={task.date} />
@@ -137,13 +118,6 @@ const TaskReadMode: React.FC<TaskReadMode>= ({task}) => {
       </div>
     </>
   )
-}
-
-interface formFieldProps{
-  id: string,
-  label: string,
-  value?: string,
-  type: string
 }
 
 interface TaskEditModeProps{
@@ -157,7 +131,7 @@ interface TaskEditModeProps{
 }
 const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) => {
   const formFields = [
-    { id: 'task_name', label: 'Task Name', value: editedTask.task_name, type: 'text' },
+    { id: 'task_name', label: 'Task Name', value: editedTask.title, type: 'text' },
     { id: 'description', label: 'Description', value: editedTask.description, type: 'text' },
     { id: 'date', label: 'Date', value: editedTask.date, type: 'text' },
     { id: 'time', label: 'Time', value: editedTask.time, type: 'text' },
@@ -186,14 +160,11 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) =
     </form>
   )
 }
-// TODO: Add edit mode and read mode
-// TODO: refactor the edit mode into a separate component
-// TODO: add a temporary and initial state to for edited task
-const Task:React.FC<TaskProps> = ({id, title: task_name, description, date, time, complete}) => {
+const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTask, setEditedTask] = useState({ task_name, description, date, time });
+  const [editedTask, setEditedTask] = useState({ title, description, date, time });
   // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
-  const task = {task_name, description, date, time, complete}
+  const task = {title, description, date, time, complete}
 
   const handleEditClick:MouseEventHandler<SVGElement> = () => {
     editTimeoutRef.current = setTimeout(() => {
@@ -202,14 +173,13 @@ const Task:React.FC<TaskProps> = ({id, title: task_name, description, date, time
       setEditedTask(task)
     }, 2000);
     setIsEditing(true);
-    // console.log("Currently Editing")
-    console.log(`Editing task ${id}: ${isEditing}`)
+    
   };
 
   useEffect(() => {
-    console.log(isEditing ? "Editing" : "Read Mode")
+    console.log(isEditing ? `Editing task ${id}` : `Reading task ${id}`)
     console.log(editedTask)
-  }, [isEditing, editedTask])
+  }, [isEditing, editedTask, id])
 
   const editTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInputFocusedRef = useRef(false);

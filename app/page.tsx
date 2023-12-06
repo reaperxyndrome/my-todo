@@ -7,9 +7,6 @@ interface StylableProps{
   className?: string;
 }
 
-
-
-// TODO: Implement edit task using ContextAPI
 export default function HomePage() {
   const [editTask, setEditTask] = useState<TaskProps>();
   const handleEditTask = (task: TaskProps) => {
