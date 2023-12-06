@@ -23,11 +23,14 @@ export async function DELETE(
   }
 }
 
-export async function PUT(req: NextRequest) {
-  const { id, title, description, date, time, complete } = await req.json();
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+  ) {
+  const {title, description, date, time, complete } = await req.json();
   try {
     const result = await prisma.task.update({
-      where: {id: id},
+      where: {id: params.id},
       data: {
         title: title,
         description: description,
@@ -39,6 +42,6 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(result);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'An error occurred while updating the task' });
+    return NextResponse.json({ error: 'Server error occurred while updating the task' });
   }
 }

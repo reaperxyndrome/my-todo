@@ -95,15 +95,6 @@ const TaskDetail: React.FC<{ detail?: string }> = ({ detail }) => (
   detail && <p className='mt-[1rem]'>{detail}</p>
 )
 
-interface EditTaskInputProps{
-  value: string,
-  name: string,
-  label: string,
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  onFocus: () => void,
-  onBlur: () => void,
-}
-
 interface TaskReadMode {
   task: TaskProps
 }
@@ -131,7 +122,7 @@ interface TaskEditModeProps{
 }
 const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) => {
   const formFields = [
-    { id: 'task_name', label: 'Task Name', value: editedTask.title, type: 'text' },
+    { id: 'title', label: 'Task Name', value: editedTask.title, type: 'text' },
     { id: 'description', label: 'Description', value: editedTask.description, type: 'text' },
     { id: 'date', label: 'Date', value: editedTask.date, type: 'text' },
     { id: 'time', label: 'Time', value: editedTask.time, type: 'text' },
@@ -212,29 +203,27 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   };
 
   const handleSaveTask = async () => {
-    // Update the task with the new values
-    // This will depend on how you're managing your tasks
-    // For example, if you're using a state hook to manage your tasks, you might do something like this:
-    // setTasks(tasks.map(task => task.id === id ? editedTask : task));
-    // try {
-    //   const response = await fetch(`/api/task/${id}`, {
-    //     method: 'PUT', // or 'PUT' if you're updating an existing task
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(editedTask),
-    //   });
+    try {
+      const response = await fetch(`/api/task/${id}`, {
+        method: 'PUT', // or 'PUT' if you're updating an existing task
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedTask),
+      });
   
-    //   if (!response.ok) {
-    //     throw new Error('Failed to save task');
-    //   }
+      if (!response.ok) {
+        throw new Error('Failed to save task');
+      }
   
-    //   const data = await response.json();
-    //   console.log('Saved task:', data);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
-    // Clear the timeout if it's still running
+      const data = await response.json();
+      console.log('Saved task client successful:', data);
+      window.location.reload();
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    // // Clear the timeout if it's still running
     if (editTimeoutRef.current) {
       clearTimeout(editTimeoutRef.current);
     }
