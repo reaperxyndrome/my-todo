@@ -22,3 +22,24 @@ export async function DELETE(
     return NextResponse.json({error: 'Failed to delete task' })
   }
 }
+
+// TODO: add PUT route to update task
+export async function PUT(req: NextRequest) {
+  const { id, title, description, date, time, complete } = await req.json();
+  try {
+    const result = await prisma.task.update({
+      where: {id: id},
+      data: {
+        title: title,
+        description: description,
+        date: date,
+        time: time,
+        complete: complete,
+      },
+    });
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'An error occurred while updating the task' });
+  }
+}
