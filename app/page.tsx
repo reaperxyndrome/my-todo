@@ -8,11 +8,6 @@ interface StylableProps{
 }
 
 export default function HomePage() {
-  const [editTask, setEditTask] = useState<TaskProps>();
-  const handleEditTask = (task: TaskProps) => {
-    setEditTask(task);
-    // logic to open the dialog
-  };
   const AddIcon:React.FC<StylableProps> = () => {
     return(
       <svg className="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
