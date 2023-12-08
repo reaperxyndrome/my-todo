@@ -1,5 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../../lib/prisma'
+import prisma from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
 // POST /api/task
@@ -32,7 +31,11 @@ export async function POST(
 
 export async function GET() {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks = await prisma.task.findMany({
+      where: {
+        complete: false,
+      },
+    });
     return NextResponse.json(tasks);
   } catch (error) {
     console.error(error);
