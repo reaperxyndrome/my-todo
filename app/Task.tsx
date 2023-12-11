@@ -258,6 +258,27 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     setIsEditing(false);
   }, [editedTask, id]);
 
+  // const initialRender = useRef(true);
+  // const prevComplete = useRef(editedTask.complete);
+
+  useEffect(() => {
+    // if (initialRender.current) {
+      // initialRender.current = false;
+    // } else if (editedTask.complete !== prevComplete.current) {
+      let ignore = false;
+      if(!ignore){
+        console.log(editedTask.complete)
+        handleSaveTask()
+      }
+      console.log("Component mount / unmount, ignore:", ignore)
+      return () => {
+        ignore = true
+      }
+      
+    // }
+    // prevComplete.current = editedTask.complete;
+  }, [editedTask.complete])
+
   useEffect(() => {
     return () => {
       // Clean up the timeout when the component unmounts
