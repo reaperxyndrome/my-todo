@@ -1,6 +1,6 @@
 "use client"
 import { twMerge } from 'tailwind-merge';
-import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
+import { MouseEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 interface StylableProps{
     className?: string;
@@ -26,7 +26,7 @@ interface DeleteIconProps extends StylableProps{
   id?: string
 }
 
-interface EditIconProps extends StylableProps{
+interface ClickableIconProps extends StylableProps{
   id?: string,
   onClick: MouseEventHandler<SVGElement>,
 }
@@ -59,8 +59,7 @@ const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
   )
 }
 
-// TODO: Implement edit task
-const EditIcon:React.FC<EditIconProps> = ({className, onClick}) => {
+const EditIcon:React.FC<ClickableIconProps> = ({className, onClick}) => {
   return(
     <svg onClick={onClick} className={twMerge("w-6 h-6 text-gray-400", className)} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"> 
       <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
@@ -78,16 +77,31 @@ const StarOutlineIcon:React.FC<StylableProps> = ({className}) => {
   )
 }
 
+
+const CheckIcon:React.FC<ClickableIconProps> = ({className, onClick}) => {
+  
+  return(
+    <svg className={twMerge("w-6 h-6 hover:text-[green]", className)} xmlns="http://www.w3.org/2000/svg" fill="currentColor" version="1.1" id="Capa_1" width="800px" height="800px" viewBox="0 0 305.002 305.002" onClick={onClick}>
+      <g>
+        <path d="M152.502,0.001C68.412,0.001,0,68.412,0,152.501s68.412,152.5,152.502,152.5c84.089,0,152.5-68.411,152.5-152.5    S236.591,0.001,152.502,0.001z M152.502,280.001C82.197,280.001,25,222.806,25,152.501c0-70.304,57.197-127.5,127.502-127.5    c70.304,0,127.5,57.196,127.5,127.5C280.002,222.806,222.806,280.001,152.502,280.001z"/>
+        <path d="M218.473,93.97l-90.546,90.547l-41.398-41.398c-4.882-4.881-12.796-4.881-17.678,0c-4.881,4.882-4.881,12.796,0,17.678    l50.237,50.237c2.441,2.44,5.64,3.661,8.839,3.661c3.199,0,6.398-1.221,8.839-3.661l99.385-99.385    c4.881-4.882,4.881-12.796,0-17.678C231.269,89.089,223.354,89.089,218.473,93.97z"/>
+      </g>
+    </svg>
+  )
+}
+
 interface IconGroupProps{
   id?:string,
   handleEditClick: MouseEventHandler<SVGElement>
+  handleComplete: MouseEventHandler<SVGElement>
 }
 
-const IconGroup: React.FC<IconGroupProps> = ({id, handleEditClick}) => (
+const IconGroup: React.FC<IconGroupProps> = ({id, handleEditClick, handleComplete}) => (
   <>
     <DeleteIcon className='hidden group-hover:block absolute top-[1rem] right-[1rem] cursor-pointer' id={id}></DeleteIcon>
     <EditIcon className='hidden group-hover:block absolute top-[1rem] right-[3rem] cursor-pointer' id={id} onClick={handleEditClick}></EditIcon>
     <StarOutlineIcon className='hidden group-hover:block absolute top-[1rem] right-[5rem] cursor-pointer'></StarOutlineIcon>
+    <CheckIcon className='hidden group-hover:block absolute top-[1rem] right-[7rem] cursor-pointer' onClick={handleComplete}></CheckIcon>
   </>
 )
 
@@ -151,9 +165,11 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) =
     </form>
   )
 }
+
+// TODO: handle complete task
 const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTask, setEditedTask] = useState({ title, description, date, time });
+  const [editedTask, setEditedTask] = useState({ title, description, date, time, complete });
   // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
   const task = {title, description, date, time, complete}
 
@@ -164,8 +180,15 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       setEditedTask(task)
     }, 2000);
     setIsEditing(true);
-    
   };
+
+  const handleComplete:MouseEventHandler<SVGElement> = () => {
+      setEditedTask({...task, complete: true});
+      console.log("Task completed: ", id, "complete:", editedTask.complete)
+      // handleSaveTask()
+  };
+
+  
 
   useEffect(() => {
     console.log(isEditing ? `Editing task ${id}` : `Reading task ${id}`)
@@ -202,7 +225,9 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     }, 500);
   };
 
-  const handleSaveTask = async () => {
+  // const [taskSaved, setTaskSaved] = useState(false);
+
+  const handleSaveTask = useCallback(async () => {
     try {
       const response = await fetch(`/api/task/${id}`, {
         method: 'PUT', // or 'PUT' if you're updating an existing task
@@ -218,7 +243,8 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   
       const data = await response.json();
       console.log('Saved task client successful:', data);
-      window.location.reload();
+      // setTaskSaved(true)
+      // window.location.reload();
 
     } catch (error) {
       console.error('Error:', error);
@@ -230,12 +256,8 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   
     // Switch back to read mode
     setIsEditing(false);
-  };
+  }, [editedTask, id]);
 
-  // useEffect(() => {
-  //   setEditedTask(editedTask);
-  // }, [editedTask]);
-  
   useEffect(() => {
     return () => {
       // Clean up the timeout when the component unmounts
@@ -249,7 +271,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
 
   return(
     <div className='relative group bg-[black] hover:bg-white text-[white] hover:text-black px-[1rem] hover:border-black hover:border-[2px] py-[1rem] rounded-lg'>
-      <IconGroup id={id} handleEditClick={handleEditClick}/>
+      <IconGroup id={id} handleEditClick={handleEditClick} handleComplete={handleComplete}/>
       {isEditing ? (
         <div className='flex flex-col gap-y-2'>
           <TaskEditMode editedTask={editedTask} eventHandlers={eventHandlers}/>
