@@ -9,7 +9,7 @@ export async function GET() {
         },
       });
       const res = NextResponse.json(count_complete)
-      console.log("Task completed: ", res) 
+      console.log("Task completed: ", count_complete) 
       return res;
     } catch (error) {
       console.error(error);
