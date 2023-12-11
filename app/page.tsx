@@ -36,15 +36,36 @@ export default function HomePage() {
   }
   // const taskCount = getCompletedTaskCount();
   const [points, setPoints] = useState(0);
+  const [level, setLevel] = useState(1);
+
+  const calculateLevel = () => {
+    let level = 1;
+    let tempPoints = points
+    // console.log(tempPoints)
+    let requiredPoints = Math.pow(level, 2)
+    // console.log(requiredPoints)
+    while (tempPoints >= requiredPoints) {
+      requiredPoints = Math.pow(level, 2)
+      tempPoints -= requiredPoints;
+      level++;
+    }
+    let remainingPoints = requiredPoints - tempPoints;
+    console.log("remaining points to reach next level:", remainingPoints)
+    console.log(level)
+    setLevel(level)
+  }
+  
 
   useEffect(() => {
     console.log("Points changed")
+    calculateLevel()
   }, [points])
 
   useEffect(() => {
     getCompletedTaskCount()
       .then((count) => setPoints(count))
   }, [])
+
   const handleAddTaskClick = () => {
     setShowModal(true);
   };
@@ -63,7 +84,9 @@ export default function HomePage() {
           A TodoList App made just for you.
         </h2> 
       </div>
+      <h2 className='text-3xl'>Level {level}</h2>
       <h2 className='text-3xl'>Points: {points}</h2>
+      
       <div className='flex gap-x-9 items-center justify-center mb-[2rem] bg-[grey] hover:bg-[white] text-[white] hover:text-black hover:border-[5px] py-[1rem] px-[1rem] rounded-lg cursor-pointer' onClick={handleAddTaskClick}>        
         <AddIcon />
         <h2 className='text-2xl font-medium'>Add a new task</h2>
