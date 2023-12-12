@@ -12,6 +12,7 @@ const Tasks = () => {
     getAllTasks()
   }, [])
 
+  // TODO: refresh task list after adding a new task
   async function getAllTasks() {
     try {
       const response = await fetch('/api/task', {

@@ -45,6 +45,7 @@ const TaskForm:React.FC = () => {
   }
 
   return(
+    // TODO: refresh task list after adding a new task
     <form onSubmit={createTask} className='flex flex-col p-4'>
       <input type='text' onChange={(e) => setTaskName(e.target.value)}
         required 
