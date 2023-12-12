@@ -240,6 +240,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       }
   
       const data = await response.json();
+      setEditedTask(data)
       // console.log('Saved task client successful:', data);
       // setTaskSaved(true)
       // window.location.reload();
@@ -298,7 +299,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
         </div>
         
       ) : (
-        <TaskReadMode task={task}/>
+        <TaskReadMode task={editedTask}/>
       )}
     </div>
   )
