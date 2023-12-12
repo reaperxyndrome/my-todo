@@ -7,7 +7,8 @@ interface StylableProps{
   className?: string;
 }
 
-export const RefreshTasksContext = createContext(() => {});
+// export const RefreshTasksContext = createContext(() => {});
+import { RefreshTasksContext } from './context';
 
 // TODO: add a context to store refresh tasks when a new task is added
 export default function HomePage() {

@@ -1,6 +1,6 @@
 "use client"
 import { ChangeEvent, useContext, useState } from "react";
-import { RefreshTasksContext } from "./page";
+import { RefreshTasksContext } from "./context";
 import prisma from "@/lib/prisma";
 
 interface StylableProps{
