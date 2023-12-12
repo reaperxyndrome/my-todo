@@ -104,7 +104,7 @@ export default function HomePage() {
       {/* TODO: Make the progress bar animated */}
       <h2 className='text-3xl mb-2'>Level {level}</h2>
       <div className='flex items-center mb-2 w-[300px] h-9 bg-black p-1 rounded-lg'>
-        <div className='flex items-center h-6 bg-green-400 rounded-md pl-2 py-[2px]' style={{width: `${progress}%`}}>
+        <div className='flex items-center h-6 bg-green-400 rounded-md pl-2 py-[2px] transition-[width]' style={{width: `${progress}%`}}>
           <p className='text-white'>{progress}%</p>
         </div>
       </div>
