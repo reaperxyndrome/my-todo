@@ -8,7 +8,7 @@ const Tasks = () => {
   const [tasks, setTasks] = useState<TaskProps[]>([]);
 
   useEffect(() => {
-    console.log("getting tasks")
+    // console.log("getting tasks")
     getAllTasks()
   }, [])
 
@@ -22,7 +22,7 @@ const Tasks = () => {
         throw new Error(response.statusText);
       }
       const responseData = await response.json();
-      console.log(typeof responseData[0].createdAt)
+      // console.log(typeof responseData[0].createdAt)
       setTasks(responseData);
     } catch (error) {
       console.error(error);

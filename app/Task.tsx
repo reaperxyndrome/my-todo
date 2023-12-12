@@ -31,7 +31,6 @@ interface ClickableIconProps extends StylableProps{
   onClick: MouseEventHandler<SVGElement>,
 }
 
-// TODO: refactor the icons into buttons
 const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
   const handleDelete = async () => {
     console.log("Deleting task")
@@ -166,7 +165,6 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) =
   )
 }
 
-// TODO: handle complete task
 const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ title, description, date, time, complete });
@@ -191,8 +189,8 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   
 
   useEffect(() => {
-    console.log(isEditing ? `Editing task ${id}` : `Reading task ${id}`)
-    console.log(editedTask)
+    // console.log(isEditing ? `Editing task ${id}` : `Reading task ${id}`)
+    // console.log(editedTask)
   }, [isEditing, editedTask, id])
 
   const editTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -242,7 +240,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       }
   
       const data = await response.json();
-      console.log('Saved task client successful:', data);
+      // console.log('Saved task client successful:', data);
       // setTaskSaved(true)
       // window.location.reload();
 
@@ -267,10 +265,10 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     // } else if (editedTask.complete !== prevComplete.current) {
       let ignore = false;
       if(!ignore){
-        console.log(editedTask.complete)
+        // console.log(editedTask.complete)
         handleSaveTask()
       }
-      console.log("Component mount / unmount, ignore:", ignore)
+      // console.log("Component mount / unmount, ignore:", ignore)
       return () => {
         ignore = true
       }
