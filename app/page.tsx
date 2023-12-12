@@ -37,28 +37,44 @@ export default function HomePage() {
   // const taskCount = getCompletedTaskCount();
   const [points, setPoints] = useState(0);
   const [level, setLevel] = useState(1);
-
-  const calculateLevel = () => {
-    let level = 1;
-    let tempPoints = points
-    // console.log(tempPoints)
-    let requiredPoints = Math.pow(level, 2)
-    // console.log(requiredPoints)
-    while (tempPoints >= requiredPoints) {
-      requiredPoints = Math.pow(level, 2)
-      tempPoints -= requiredPoints;
-      level++;
-    }
-    let remainingPoints = requiredPoints - tempPoints;
-    console.log("remaining points to reach next level:", remainingPoints)
-    console.log(level)
-    setLevel(level)
-  }
+  const [progress, setProgress] = useState(0)
   
-
+  
   useEffect(() => {
-    console.log("Points changed")
-    calculateLevel()
+    // console.log("Points changed")
+    // TODO: fix leveling system
+    const calculateProgressLevel = () => {
+      let level = 1;
+      let tempPoints = points
+      // console.log(tempPoints)
+      let requiredPoints = level
+      // console.log(requiredPoints)
+      console.log("level: ", level)
+      console.log("temppoints: ", tempPoints)
+      console.log("requiredPoints: ", requiredPoints)
+      while (tempPoints >= requiredPoints) {
+        tempPoints -= requiredPoints;
+        // console.log(tempPoints)
+        level++;
+        requiredPoints = level
+        console.log("level: ", level)
+        console.log("temppoints: ", tempPoints)
+        console.log("requiredPoints: ", requiredPoints)
+      }
+      const requiredPointsThisLevel = requiredPoints
+      const pointsGainedThisLevel = tempPoints
+      const progressThisLevel = Number((pointsGainedThisLevel / requiredPointsThisLevel * 100).toFixed(2))
+
+ 
+      // console.log("points gained in this level:", pointsGainedThisLevel)
+      // console.log("remaining points needed to level up:", remainingPointsThisLevel)
+      // console.log("required points needed to pass this level: ", requiredPointsThisLevel)
+      // console.log(progressThisLevel)
+
+      setProgress(progressThisLevel)
+      setLevel(level)
+    }
+    calculateProgressLevel()
   }, [points])
 
   useEffect(() => {
@@ -84,8 +100,15 @@ export default function HomePage() {
           A TodoList App made just for you.
         </h2> 
       </div>
-      <h2 className='text-3xl'>Level {level}</h2>
-      <h2 className='text-3xl'>Points: {points}</h2>
+      
+      {/* TODO: Make the progress bar animated */}
+      <h2 className='text-3xl mb-2'>Level {level}</h2>
+      <div className='flex items-center mb-2 w-[300px] h-9 bg-black p-1 rounded-lg'>
+        <div className='flex items-center h-6 bg-green-400 rounded-md pl-2 py-[2px]' style={{width: `${progress}%`}}>
+          <p className='text-white'>{progress}%</p>
+        </div>
+      </div>
+      <h2 className='text-2xl mb-5'>Total points: {points}</h2>
       
       <div className='flex gap-x-9 items-center justify-center mb-[2rem] bg-[grey] hover:bg-[white] text-[white] hover:text-black hover:border-[5px] py-[1rem] px-[1rem] rounded-lg cursor-pointer' onClick={handleAddTaskClick}>        
         <AddIcon />
