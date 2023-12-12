@@ -7,7 +7,28 @@ interface StylableProps{
   className?: string;
 }
 
+export const RefreshTasksContext = createContext(() => {});
+
+// TODO: add a context to store refresh tasks when a new task is added
 export default function HomePage() {
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [showAddTask, setShowModal] = useState(false);
+  const [points, setPoints] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [progress, setProgress] = useState(0)
+
+  const handleAddTaskClick = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const refreshTasks = () => {
+    setRefreshKey(prevKey => prevKey + 1);
+  };
+
   const AddIcon:React.FC<StylableProps> = () => {
     return(
       <svg className="w-[30px] h-[30px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -15,7 +36,6 @@ export default function HomePage() {
       </svg>
     )
   }  
-  const [showAddTask, setShowModal] = useState(false);
   // const completedTaskCount
   const getCompletedTaskCount = async () => {
     try {
@@ -35,9 +55,6 @@ export default function HomePage() {
     }
   }
   // const taskCount = getCompletedTaskCount();
-  const [points, setPoints] = useState(0);
-  const [level, setLevel] = useState(1);
-  const [progress, setProgress] = useState(0)
   
   
   useEffect(() => {
@@ -82,14 +99,7 @@ export default function HomePage() {
       .then((count) => setPoints(count))
   }, [])
 
-  const handleAddTaskClick = () => {
-    setShowModal(true);
-  };
-
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
-
+  
   return (
     <main className='flex flex-col justify-center items-center py-[4rem] '>
       <div className='mb-[4rem]'>
@@ -114,11 +124,14 @@ export default function HomePage() {
         <AddIcon />
         <h2 className='text-2xl font-medium'>Add a new task</h2>
       </div>
-      <Tasks/>
-      
-      {showAddTask && (
-        <AddTaskDialog onClose={handleModalClose}></AddTaskDialog>
-      )}
+      <RefreshTasksContext.Provider value={refreshTasks}>
+        <Tasks key={refreshKey}/>
+        
+        {showAddTask && (
+          <AddTaskDialog onClose={handleModalClose}></AddTaskDialog>
+        )}
+        
+      </RefreshTasksContext.Provider>
       
     </main>
   )
