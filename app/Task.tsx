@@ -1,7 +1,7 @@
 "use client"
 import { twMerge } from 'tailwind-merge';
-import { MouseEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { RefreshAddTasksContext } from './context';
+import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
+import { RefreshTasksContext } from './context';
 
 interface StylableProps{
     className?: string;
@@ -33,7 +33,7 @@ interface ClickableIconProps extends StylableProps{
 }
 
 const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
-  const refreshTasks = useContext(RefreshAddTasksContext)
+  const refreshTasks = useContext(RefreshTasksContext)
   const handleDelete = async () => {
     console.log("Deleting task")
     try {
@@ -177,7 +177,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   // const [taskComplete, setTaskComplete] = useState(false)
   // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
   const task = {title, description, date, time, complete}
-  const refreshTasks = useContext(RefreshAddTasksContext)
+  const refreshTasks = useContext(RefreshTasksContext)
   // const [shouldRefresh, setShouldRefresh] = useState(false);
 
   const handleEditClick:MouseEventHandler<SVGElement> = () => {
