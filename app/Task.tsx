@@ -33,6 +33,7 @@ interface ClickableIconProps extends StylableProps{
 }
 
 const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
+  const refreshTasks = useContext(RefreshAddTasksContext)
   const handleDelete = async () => {
     console.log("Deleting task")
     try {
@@ -43,9 +44,11 @@ const DeleteIcon:React.FC<DeleteIconProps> = ({className, id}) => {
       if (!response.ok) {
         throw new Error('Failed to delete task');
       }
+
       console.log('Received response from server:', response.json());
       // comment window.location.reload() to debug
-      window.location.reload();
+      // window.location.reload();
+      refreshTasks()
       // Handle successful deletion (e.g., refresh the page or remove the task from state)
     } catch (error) {
       console.error(error);
@@ -166,6 +169,7 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({stagedTask, eventHandlers}) =
   )
 }
 
+// const refreshTasks = useContext()
 const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ title, description, date, time, complete });
@@ -241,10 +245,6 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
           }
       
           const data = await response.json();
-          // setEditedTask(data)
-          // console.log('Saved task client successful:', data);
-          // setTaskSaved(true)
-          // window.location.reload();
     
         } catch (error) {
           console.error('Error:', error);
