@@ -1,7 +1,7 @@
 "use client"
 import { twMerge } from 'tailwind-merge';
 import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
-import { RefreshTasksContext } from './context';
+import { RefreshLevelContext, RefreshTasksContext } from './context';
 
 interface StylableProps{
     className?: string;
@@ -178,6 +178,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
   const task = {title, description, date, time, complete}
   const refreshTasks = useContext(RefreshTasksContext)
+  const refreshLevel = useContext(RefreshLevelContext)
   // const [shouldRefresh, setShouldRefresh] = useState(false);
 
   const handleEditClick:MouseEventHandler<SVGElement> = () => {
@@ -268,7 +269,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
           refreshTasks();
         }
       }
-      
+      refreshLevel()
     // }
     // prevComplete.current = editedTask.complete;
   }, [editedTask])

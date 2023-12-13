@@ -2,7 +2,7 @@
 import AddTaskDialog from './AddTaskDialog';
 import {useCallback, useEffect, useState } from 'react';
 import Tasks from "./Tasks"
-import { RefreshTasksContext } from './context';
+import { RefreshLevelContext, RefreshTasksContext } from './context';
 interface StylableProps{
   className?: string;
 }
@@ -106,10 +106,15 @@ const AddButton = ({setShowModal}: { setShowModal: (show: boolean) => void }) =>
 
 export default function HomePage() {
   const [refreshTaskKey, setRefreshTaskKey] = useState(0);
+  const [refreshLevelKey, setRefreshLevelKey] = useState(0);
   const [showAddTask, setShowModal] = useState(false);
   
   const refreshTasks = useCallback(() => {
     setRefreshTaskKey(prevKey => prevKey + 1);
+  }, []);
+
+  const refreshLevel = useCallback(() => {
+    setRefreshLevelKey(prevKey => prevKey + 1);
   }, []);
 
   return (
@@ -125,11 +130,14 @@ export default function HomePage() {
       
       {/* TODO: Make the progress bar animated */}
       {/* TODO: Add key to level component (make context later) */}
-      <Level/>
+      <Level key={refreshLevelKey}/>
+
       <AddButton setShowModal={setShowModal}></AddButton>
+      
       <RefreshTasksContext.Provider value={refreshTasks}>
-        <Tasks key={refreshTaskKey}/>
-        
+        <RefreshLevelContext.Provider value={refreshLevel}>
+          <Tasks key={refreshTaskKey}/>
+        </RefreshLevelContext.Provider>
         {showAddTask && (
           <AddTaskDialog onClose={() => setShowModal(false)}></AddTaskDialog>
         )}
