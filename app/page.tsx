@@ -8,7 +8,7 @@ interface StylableProps{
 }
 
 // export const RefreshTasksContext = createContext(() => {});
-import { RefreshTasksContext } from './context';
+import { RefreshAddTasksContext } from './context';
 
 // TODO: add a context to store refresh tasks when a new task is added
 export default function HomePage() {
@@ -125,14 +125,14 @@ export default function HomePage() {
         <AddIcon />
         <h2 className='text-2xl font-medium'>Add a new task</h2>
       </div>
-      <RefreshTasksContext.Provider value={refreshTasks}>
+      <RefreshAddTasksContext.Provider value={refreshTasks}>
         <Tasks key={refreshKey}/>
         
         {showAddTask && (
           <AddTaskDialog onClose={handleModalClose}></AddTaskDialog>
         )}
         
-      </RefreshTasksContext.Provider>
+      </RefreshAddTasksContext.Provider>
       
     </main>
   )

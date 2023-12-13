@@ -1,6 +1,6 @@
 "use client"
 import { ChangeEvent, useContext, useState } from "react";
-import { RefreshTasksContext } from "./context";
+import { RefreshAddTasksContext } from "./context";
 import prisma from "@/lib/prisma";
 
 interface StylableProps{
@@ -26,7 +26,7 @@ const TaskForm:React.FC = () => {
   const [date, setDate] = useState<string>('');
   const [time, setTime] = useState<string>('');
 
-  const refreshTasks = useContext(RefreshTasksContext)
+  const refreshTasks = useContext(RefreshAddTasksContext)
   async function createTask(e: React.FormEvent) {
     try{
       e.preventDefault();
