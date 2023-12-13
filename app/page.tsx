@@ -1,6 +1,6 @@
 "use client"
 import AddTaskDialog from './AddTaskDialog';
-import {Dispatch, SetStateAction, createContext, useEffect, useState } from 'react';
+import {Dispatch, SetStateAction, createContext, useCallback, useEffect, useState } from 'react';
 import Tasks from "./Tasks"
 import { TaskProps } from './Task';
 interface StylableProps{
@@ -26,9 +26,9 @@ export default function HomePage() {
     setShowModal(false);
   };
 
-  const refreshTasks = () => {
+  const refreshTasks = useCallback(() => {
     setRefreshKey(prevKey => prevKey + 1);
-  };
+  }, []);
 
   const AddIcon:React.FC<StylableProps> = () => {
     return(

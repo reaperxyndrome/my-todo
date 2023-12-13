@@ -170,9 +170,11 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ title, description, date, time, complete });
   const [stagedTask, setStagedTask] = useState({ title, description, date, time, complete });
+  // const [taskComplete, setTaskComplete] = useState(false)
   // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
   const task = {title, description, date, time, complete}
   const refreshTasks = useContext(RefreshAddTasksContext)
+  // const [shouldRefresh, setShouldRefresh] = useState(false);
 
   const handleEditClick:MouseEventHandler<SVGElement> = () => {
     editTimeoutRef.current = setTimeout(() => {
@@ -182,11 +184,12 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     }, 2000);
     setIsEditing(true);
   };
-  // TODO: make sure to re-fetch the tasks from the server after completing a task
+  
   const handleComplete:MouseEventHandler<SVGElement> = () => {
       setEditedTask({...task, complete: true});
+      // setTaskComplete(true)
       console.log("Task completed: ", id, "complete:", editedTask.complete)
-      refreshTasks()
+      // refreshTasks()
       // handleSaveTask()
   };
 
@@ -220,18 +223,10 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     }, 500);
   };
 
-  // const [taskSaved, setTaskSaved] = useState(false);
-  // TODO: handle the save task to auto-refresh the tasks using useEffect
-  
-
-  // const initialRender = useRef(true);
-  // const prevComplete = useRef(editedTask.complete);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // if (initialRender.current) {
-      // initialRender.current = false;
-    // } else if (editedTask.complete !== prevComplete.current) {
-      const handleSaveTask = async () => {
+      const saveTaskServer = async () => {
         try {
           const response = await fetch(`/api/task/${id}`, {
             method: 'PUT', // or 'PUT' if you're updating an existing task
@@ -263,19 +258,31 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
         setIsEditing(false);
       };
 
-      let ignore = false;
-      if(!ignore){
-        // console.log(editedTask.complete)
-        handleSaveTask()
-      }
-      // console.log("Component mount / unmount, ignore:", ignore)
-      return () => {
-        ignore = true
+      saveTaskServer()
+      console.log(editedTask)
+      
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+      } else {
+        if (editedTask.complete) {
+          refreshTasks();
+        }
       }
       
     // }
     // prevComplete.current = editedTask.complete;
   }, [editedTask])
+
+  // useEffect(() => {
+  //   if (shouldRefresh) {
+  //     refreshTasks();
+  //     setShouldRefresh(false); // Set shouldRefresh back to false after refreshing
+  //   }
+  // }, [shouldRefresh]);
+
+  // useEffect(() => {
+  //   // refreshTasks()
+  // }, [taskComplete])
 
   useEffect(() => {
     return () => {

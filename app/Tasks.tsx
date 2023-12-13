@@ -7,6 +7,8 @@ import { TaskProps } from './Task';
 const Tasks = () => {
   const [tasks, setTasks] = useState<TaskProps[]>([]);
 
+  // TODO: make sure to re-fetch the tasks from the server after completing a task
+
   useEffect(() => {
     // console.log("getting tasks")
     getAllTasks()
