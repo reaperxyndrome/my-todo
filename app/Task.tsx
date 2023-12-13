@@ -1,6 +1,7 @@
 "use client"
 import { twMerge } from 'tailwind-merge';
 import { MouseEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { RefreshAddTasksContext } from './context';
 
 interface StylableProps{
     className?: string;
@@ -125,7 +126,7 @@ const TaskReadMode: React.FC<TaskReadMode>= ({task}) => {
 }
 
 interface TaskEditModeProps{
-  editedTask: TaskProps,
+  stagedTask: TaskProps,
   eventHandlers: {
     handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     handleInputFocus: () => void,
@@ -133,12 +134,12 @@ interface TaskEditModeProps{
   }
 
 }
-const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) => {
+const TaskEditMode:React.FC<TaskEditModeProps> = ({stagedTask, eventHandlers}) => {
   const formFields = [
-    { id: 'title', label: 'Task Name', value: editedTask.title, type: 'text' },
-    { id: 'description', label: 'Description', value: editedTask.description, type: 'text' },
-    { id: 'date', label: 'Date', value: editedTask.date, type: 'text' },
-    { id: 'time', label: 'Time', value: editedTask.time, type: 'text' },
+    { id: 'title', label: 'Task Name', value: stagedTask.title, type: 'text' },
+    { id: 'description', label: 'Description', value: stagedTask.description, type: 'text' },
+    { id: 'date', label: 'Date', value: stagedTask.date, type: 'text' },
+    { id: 'time', label: 'Time', value: stagedTask.time, type: 'text' },
   ];
   return(
     <form>
@@ -168,8 +169,10 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({editedTask, eventHandlers}) =
 const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ title, description, date, time, complete });
+  const [stagedTask, setStagedTask] = useState({ title, description, date, time, complete });
   // const [initialTask, setInitialTask] = useState({ task_name, description, date, time });
   const task = {title, description, date, time, complete}
+  const refreshTasks = useContext(RefreshAddTasksContext)
 
   const handleEditClick:MouseEventHandler<SVGElement> = () => {
     editTimeoutRef.current = setTimeout(() => {
@@ -179,26 +182,20 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     }, 2000);
     setIsEditing(true);
   };
-
+  // TODO: make sure to re-fetch the tasks from the server after completing a task
   const handleComplete:MouseEventHandler<SVGElement> = () => {
       setEditedTask({...task, complete: true});
       console.log("Task completed: ", id, "complete:", editedTask.complete)
+      refreshTasks()
       // handleSaveTask()
   };
-
-  
-
-  useEffect(() => {
-    // console.log(isEditing ? `Editing task ${id}` : `Reading task ${id}`)
-    // console.log(editedTask)
-  }, [isEditing, editedTask, id])
 
   const editTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInputFocusedRef = useRef(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log("Input changed")
-    setEditedTask({ ...editedTask, [event.target.name]: event.target.value });
+    setStagedTask({ ...stagedTask, [event.target.name]: event.target.value });
     console.log(event.target.name, event.target.value)
   };
 
@@ -217,45 +214,15 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       if (!isInputFocusedRef.current) {
         // Save the edited task here
         setIsEditing(false);
-        setEditedTask(task);
+        setStagedTask(task);
         console.log(`Task ${id} in read mode`)
       }
     }, 500);
   };
 
   // const [taskSaved, setTaskSaved] = useState(false);
-
-  const handleSaveTask = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/task/${id}`, {
-        method: 'PUT', // or 'PUT' if you're updating an existing task
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editedTask),
-      });
+  // TODO: handle the save task to auto-refresh the tasks using useEffect
   
-      if (!response.ok) {
-        throw new Error('Failed to save task');
-      }
-  
-      const data = await response.json();
-      setEditedTask(data)
-      // console.log('Saved task client successful:', data);
-      // setTaskSaved(true)
-      // window.location.reload();
-
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    // // Clear the timeout if it's still running
-    if (editTimeoutRef.current) {
-      clearTimeout(editTimeoutRef.current);
-    }
-  
-    // Switch back to read mode
-    setIsEditing(false);
-  }, [editedTask, id]);
 
   // const initialRender = useRef(true);
   // const prevComplete = useRef(editedTask.complete);
@@ -264,6 +231,38 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     // if (initialRender.current) {
       // initialRender.current = false;
     // } else if (editedTask.complete !== prevComplete.current) {
+      const handleSaveTask = async () => {
+        try {
+          const response = await fetch(`/api/task/${id}`, {
+            method: 'PUT', // or 'PUT' if you're updating an existing task
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(editedTask),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to save task');
+          }
+      
+          const data = await response.json();
+          // setEditedTask(data)
+          // console.log('Saved task client successful:', data);
+          // setTaskSaved(true)
+          // window.location.reload();
+    
+        } catch (error) {
+          console.error('Error:', error);
+        }
+        // // Clear the timeout if it's still running
+        if (editTimeoutRef.current) {
+          clearTimeout(editTimeoutRef.current);
+        }
+      
+        // Switch back to read mode
+        setIsEditing(false);
+      };
+
       let ignore = false;
       if(!ignore){
         // console.log(editedTask.complete)
@@ -276,7 +275,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       
     // }
     // prevComplete.current = editedTask.complete;
-  }, [editedTask.complete])
+  }, [editedTask])
 
   useEffect(() => {
     return () => {
@@ -287,6 +286,11 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
     };
   }, []);
 
+  useEffect(() => {
+    // console.log(isEditing ? `Editing task ${id}` : `Reading task ${id}`)
+    // console.log(editedTask)
+  }, [isEditing, editedTask, id])
+
   const eventHandlers = {handleInputChange, handleInputFocus, handleInputBlur}
 
   return(
@@ -294,8 +298,8 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       <IconGroup id={id} handleEditClick={handleEditClick} handleComplete={handleComplete}/>
       {isEditing ? (
         <div className='flex flex-col gap-y-2'>
-          <TaskEditMode editedTask={editedTask} eventHandlers={eventHandlers}/>
-          <button className='self-end bg-[#c85454] p-2 rounded-md w-[120px]' onClick={handleSaveTask}>Save Task</button>
+          <TaskEditMode stagedTask={stagedTask} eventHandlers={eventHandlers}/>
+          <button className='self-end bg-[#c85454] p-2 rounded-md w-[120px]' onClick={() => {setEditedTask(stagedTask)}}>Save Task</button>
         </div>
         
       ) : (
