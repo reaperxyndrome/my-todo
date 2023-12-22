@@ -107,7 +107,7 @@ const AddButton = ({setShowModal}: { setShowModal: (show: boolean) => void }) =>
 export default function HomePage() {
   const [refreshTaskKey, setRefreshTaskKey] = useState(0);
   const [refreshLevelKey, setRefreshLevelKey] = useState(0);
-  const [showAddTask, setShowModal] = useState(false);
+  const [showAddTask, setShowAddTask] = useState(false);
   
   const refreshTasks = useCallback(() => {
     setRefreshTaskKey(prevKey => prevKey + 1);
@@ -128,18 +128,16 @@ export default function HomePage() {
         </h2> 
       </div>
       
-      {/* TODO: Make the progress bar animated */}
-      {/* TODO: Add key to level component (make context later) */}
       <Level key={refreshLevelKey}/>
 
-      <AddButton setShowModal={setShowModal}></AddButton>
+      <AddButton setShowModal={setShowAddTask}></AddButton>
       
       <RefreshTasksContext.Provider value={refreshTasks}>
         <RefreshLevelContext.Provider value={refreshLevel}>
           <Tasks key={refreshTaskKey}/>
         </RefreshLevelContext.Provider>
         {showAddTask && (
-          <AddTaskDialog onClose={() => setShowModal(false)}></AddTaskDialog>
+          <AddTaskDialog onClose={() => setShowAddTask(false)}></AddTaskDialog>
         )}
         
       </RefreshTasksContext.Provider>

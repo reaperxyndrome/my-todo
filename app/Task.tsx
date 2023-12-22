@@ -170,6 +170,7 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({stagedTask, eventHandlers}) =
 }
 
 // const refreshTasks = useContext()
+// TODO: refactor Task
 const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ title, description, date, time, complete });
@@ -266,10 +267,10 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
         isFirstRender.current = false;
       } else {
         if (editedTask.complete) {
-          refreshTasks();
+          refreshTasks()
+          refreshLevel()
         }
       }
-      refreshLevel()
     // }
     // prevComplete.current = editedTask.complete;
   }, [editedTask])
