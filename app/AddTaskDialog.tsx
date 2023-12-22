@@ -1,6 +1,7 @@
 "use client"
-import {useContext, useState } from "react";
+import React, {useContext, useState } from "react";
 import { RefreshTasksContext } from "./context";
+import { TaskProps } from "./Task";
 // import prisma from "@/lib/prisma";
 
 interface StylableProps{
@@ -8,7 +9,7 @@ interface StylableProps{
 }
 
 interface TaskDialogProps extends StylableProps {
-    onClose: () => void;
+    closeTaskDialog: () => void;
 }
 
 const CloseIcon = () => {
@@ -19,48 +20,61 @@ const CloseIcon = () => {
   )
 }
 
-
-const TaskForm:React.FC = () => {
-  const [title, setTaskName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [date, setDate] = useState<string>('');
-  const [time, setTime] = useState<string>('');
-
-  const refreshTasks = useContext(RefreshTasksContext)
-  async function createTask(e: React.FormEvent) {
-    try{
-      e.preventDefault();
-      const task = {title, description, date, time, complete: false}
-      console.log('Sending task to server:', task);
-      const response = await fetch('/api/task', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(task),
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      // const responseData = await response.json();
-      // console.log(responseData)
-      refreshTasks()
-    } catch (error){
-      console.error(error)
+async function PostTaskServer(task: TaskProps) {
+  try{
+    console.log('Sending task to server:', task);
+    const response = await fetch('/api/task', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(task),
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
     }
+  } catch (error){
+    console.error(error)
+  }
+}
+
+const TaskForm:React.FC<{ closeTaskDialog: Function }> = ({closeTaskDialog}) => {
+  const [task, setTask] = useState<TaskProps>({
+    title: '',
+    description: '',
+    date: '',
+    time: '',
+    complete: false
+  })
+  
+  const refreshTasks = useContext(RefreshTasksContext)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  async function handleSubmit(e: React.FormEvent){
+    e.preventDefault()
+    await PostTaskServer(task)
+    refreshTasks()
+    closeTaskDialog()
   }
 
   return(
-    <form onSubmit={createTask} className='flex flex-col p-4'>
-      <input type='text' onChange={(e) => setTaskName(e.target.value)}
+    <form onSubmit={handleSubmit} className='flex flex-col p-4'>
+      <input type='text' name="title" onChange={handleChange}
         required 
         placeholder='Task name'
+        value={task.title}
         className='border border-gray-400 p-2 mb-4 rounded-lg w-full' ></input>
-      <textarea onChange={(e) => setDescription(e.target.value)} 
+      <textarea name="description" onChange={handleChange} 
         placeholder='Task description' 
-        value={description} 
+        value={task.description} 
         className='border border-gray-400 p-2 mb-4 rounded-lg w-full' />
       <div className='flex justify-between mb-4'>
-        <input type='date' onChange={(e) => setDate(e.target.value)} className="cursor-pointer"/>
-        <input type='time' onChange={(e) => setTime(e.target.value)} className="cursor-pointer"/>
+        <input type='date' name="date" value={task.date} onChange={handleChange} className="cursor-pointer"/>
+        <input type='time' name="time" value={task.time} onChange={handleChange} className="cursor-pointer"/>
       </div>
       <input type="submit" value="Add Task"
         className='bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer'/>
@@ -70,23 +84,23 @@ const TaskForm:React.FC = () => {
 
 
 // Create a new component for the dialog header
-const DialogHeader: React.FC<{ onClose: Function }> = ({ onClose }) => (
+const DialogHeader: React.FC<{ closeTaskDialog: Function }> = ({ closeTaskDialog }) => (
   <div className='flex justify-between items-center px-4 py-4 border-b'>
     <h2 className='text-2xl font-medium'>Add a new task</h2>
-    <button onClick={() => onClose()}>
+    <button onClick={() => closeTaskDialog()}>
       <CloseIcon></CloseIcon>
     </button>
   </div>
 )
 
-const AddTaskDialog:React.FC<TaskDialogProps> = ({className, onClose}) => {
+const AddTaskDialog:React.FC<TaskDialogProps> = ({className, closeTaskDialog}) => {
   return(
     <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>
       <div className='absolute w-full h-full bg-gray-900 opacity-50'
-       onClick={onClose}/>
+       onClick={closeTaskDialog}/>
       <div className='absolute z-100 bg-white rounded-lg w-1/3 px-2 py-2'>
-        <DialogHeader onClose={onClose}/>
-        <TaskForm></TaskForm>
+        <DialogHeader closeTaskDialog={closeTaskDialog}/>
+        <TaskForm closeTaskDialog={closeTaskDialog}></TaskForm>
       </div>
     </div>
   )
