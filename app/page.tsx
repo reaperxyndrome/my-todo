@@ -117,6 +117,10 @@ export default function HomePage() {
     setRefreshLevelKey(prevKey => prevKey + 1);
   }, []);
 
+  const closeTaskDialog = useCallback(() => {
+    setShowAddTask(false);
+  }, []);
+
   return (
     <main className='flex flex-col justify-center items-center py-[4rem] '>
       <div className='mb-[4rem]'>
@@ -137,7 +141,7 @@ export default function HomePage() {
           <Tasks key={refreshTaskKey}/>
         </RefreshLevelContext.Provider>
         {showAddTask && (
-          <AddTaskDialog onClose={() => setShowAddTask(false)}></AddTaskDialog>
+          <AddTaskDialog closeTaskDialog={closeTaskDialog}></AddTaskDialog>
         )}
         
       </RefreshTasksContext.Provider>
