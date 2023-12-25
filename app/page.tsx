@@ -3,6 +3,7 @@ import AddTaskDialog from './AddTaskDialog';
 import {useCallback, useEffect, useState } from 'react';
 import Tasks from "./Tasks"
 import { RefreshLevelContext, RefreshTasksContext } from './context';
+import { signIn, signOut } from 'next-auth/react';
 interface StylableProps{
   className?: string;
 }
@@ -104,6 +105,15 @@ const AddButton = ({setShowModal}: { setShowModal: (show: boolean) => void }) =>
   )
 }
 
+const LoginButton = () => {
+  return <button onClick={() => signIn()}>Sign In</button>
+}
+
+const LogoutButton = () => {
+  return <button onClick={() => signOut()}>Sign Out</button>
+}
+
+
 export default function HomePage() {
   const [refreshTaskKey, setRefreshTaskKey] = useState(0);
   const [refreshLevelKey, setRefreshLevelKey] = useState(0);
@@ -123,6 +133,8 @@ export default function HomePage() {
 
   return (
     <main className='flex flex-col justify-center items-center py-[4rem] '>
+      <LoginButton/>
+      <LogoutButton/>
       <div className='mb-[4rem]'>
         <h1 className="text-4xl font-bold">
           MyTodo, not only a Todo List App
