@@ -2,8 +2,14 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "../auth"
 import { User } from "@prisma/client"
 
-export async function getUserId() {
+export async function getUser() {
+  try {
     const session = await getServerSession(authOptions)
     const user = session?.user as User
-    return user.id
+    console.log(user)
+    return { userId: user.id, username: user.name }
+  } catch (error) {
+    console.error(error)
+    throw error
   }
+}

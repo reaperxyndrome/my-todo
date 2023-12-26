@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserId } from '../utils'
+import { getUser } from '../utils'
 
 // POST /api/task
 // Required fields in body: title, description, date, time, complete
@@ -9,7 +9,7 @@ export async function POST(
   req: NextRequest
 ) {
   try {
-    const userId = await getUserId()
+    const {userId} = await getUser()
     const { title, description, date, time, complete } = await req.json()
     const result = await prisma.task.create({
       data: {
@@ -33,7 +33,7 @@ export async function POST(
 
 export async function GET() {
   try {
-    const userId = await getUserId()
+    const {userId} = await getUser()
     const tasks = await prisma.task.findMany({
       where: {
         complete: false,

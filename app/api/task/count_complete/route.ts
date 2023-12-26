@@ -1,10 +1,10 @@
 
 import prisma from '@/lib/prisma'
 import {NextResponse } from 'next/server'
-import { getUserId } from '../../utils';
+import { getUser } from '../../utils';
 export async function GET() {
     try {
-      const userId = await getUserId()
+      const {userId} = await getUser()
       const count_complete = await prisma.task.count({
         where: {
           complete: true,
