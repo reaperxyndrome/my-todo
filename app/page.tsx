@@ -26,6 +26,23 @@ const getCompletedTaskCount = async ({setPoints}: {setPoints: React.Dispatch<Rea
   }
 }
 
+const getUsername = async () => {
+  try {
+    const res = await fetch('/api/username', {
+      method: 'GET',
+    })
+    // handle the error
+    if (!res.ok) throw new Error("Failed to get count of completed tasks")
+    const username = await res.json()
+    // console.log(completedCount)
+    return username
+  } catch (e: any) {
+    // Handle errors here
+    console.error(e)
+    return 0; // return a default value in case of an error
+  }
+}
+
 interface calculateProgressLevelProps{
   points: number,
   setProgress: React.Dispatch<React.SetStateAction<number>>,
@@ -118,6 +135,11 @@ export default function HomePage() {
   const [refreshTaskKey, setRefreshTaskKey] = useState(0);
   const [refreshLevelKey, setRefreshLevelKey] = useState(0);
   const [showAddTask, setShowAddTask] = useState(false);
+  const [userName, setUsername] = useState('');
+
+  useEffect(() => {
+    getUsername().then((username) => setUsername(username))
+  }, [])
   
   const refreshTasks = useCallback(() => {
     setRefreshTaskKey(prevKey => prevKey + 1);
@@ -135,6 +157,7 @@ export default function HomePage() {
     <main className='flex flex-col justify-center items-center py-[4rem] '>
       <LoginButton/>
       <LogoutButton/>
+      <h1>Welcome {userName}</h1>
       <div className='mb-[4rem]'>
         <h1 className="text-4xl font-bold">
           MyTodo, not only a Todo List App
