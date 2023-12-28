@@ -4,6 +4,7 @@ import {useCallback, useEffect, useState } from 'react';
 import Tasks from "./Tasks"
 import { RefreshLevelContext, RefreshTasksContext } from './context';
 import { signIn, signOut } from 'next-auth/react';
+import Link from 'next/link';
 interface StylableProps{
   className?: string;
 }
@@ -123,11 +124,22 @@ const AddButton = ({setShowModal}: { setShowModal: (show: boolean) => void }) =>
 }
 
 const LoginButton = () => {
-  return <button onClick={() => signIn()}>Sign In</button>
+  return <button onClick={() => signIn()} className='px-10 text-xl font-bold py-3 border-[2px] rounded-md'>Sign In</button>
 }
 
 const LogoutButton = () => {
-  return <button onClick={() => signOut()}>Sign Out</button>
+  return <button onClick={() => signOut()} className='px-10 text-xl font-bold py-3 border-[2px] rounded-md'>Sign Out</button>
+}
+
+const SignUpButton = () => {
+  return (
+    <Link href={'/signup'}>
+      <button className='px-10 text-xl font-bold py-3 border-[2px] rounded-md'>
+        Sign Up
+      </button>
+    </Link>
+    
+  )
 }
 
 
@@ -155,9 +167,12 @@ export default function HomePage() {
 
   return (
     <main className='flex flex-col justify-center items-center py-[4rem] '>
-      <LoginButton/>
-      <LogoutButton/>
-      <h1>Welcome {userName}</h1>
+      <section className='flex justify-between w-[600px] mb-10'>
+        <LoginButton/>
+        <SignUpButton/>
+        <LogoutButton/>  
+      </section>
+      <h1 className='text-5xl font-bold mb-10'>Welcome {userName}</h1>
       <div className='mb-[4rem]'>
         <h1 className="text-4xl font-bold">
           MyTodo, not only a Todo List App
