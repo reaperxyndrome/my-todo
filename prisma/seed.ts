@@ -9,7 +9,7 @@ async function main() {
         where: { email: "test@test.com" },
         update: {},
         create: {
-            name: "test",
+            username: "test",
             email: "test@test.com",
             password: password
         }
