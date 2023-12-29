@@ -7,7 +7,7 @@ export async function getUser() {
     const session = await getServerSession(authOptions)
     const user = session?.user as User
     console.log(user)
-    return { userId: user.id, username: user.username }
+    return { userId: user.id, username: user.name }
   } catch (error) {
     console.error(error)
     throw error
