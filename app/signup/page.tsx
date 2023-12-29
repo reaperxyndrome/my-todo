@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import {useRouter} from "next/navigation"
 
 interface FormProps{
-    username: string,
+    name: string,
     email: string,
     password: string
 }
@@ -29,7 +29,7 @@ async function PostUserServer({formData}: {formData:FormProps}) {
 const SignupForm = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({
-        username: '',
+        name: '',
         email: '',
         password: '',
     });
@@ -75,8 +75,8 @@ const SignupForm = () => {
                     id="username"
                     type="text"
                     placeholder="Username"
-                    name="username"
-                    value={formData.username}
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
                     required
                 />

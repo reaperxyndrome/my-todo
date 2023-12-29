@@ -35,7 +35,7 @@ const getUsername = async () => {
     // handle the error
     if (!res.ok) throw new Error("Failed to get count of completed tasks")
     const username = await res.json()
-    // console.log(completedCount)
+    console.log(username)
     return username
   } catch (e: any) {
     // Handle errors here

@@ -10,12 +10,12 @@ export async function POST(
   req: NextRequest
 ) {
     try {
-        const { username, email, password: raw_pass } = await req.json()
+        const { name, email, password: raw_pass } = await req.json()
         console.log(raw_pass)
         const password = await hash(raw_pass, 12)
         const result = await prisma.user.create({
             data: {
-                username: username,
+                name: name,
                 email: email,
                 password: password
             },
