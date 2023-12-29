@@ -3,13 +3,9 @@
 import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react';
 import {useRouter} from "next/navigation"
 import { getCsrfToken } from 'next-auth/react';
+import Link from 'next/link';
 
-interface FormProps{
-    name: string,
-    email: string,
-    password: string
-}
-async function SignInUserServer({formData}: {formData:FormProps}) {
+async function SignInUserServer({formData}: {formData:SignInDataProps}) {
     try{
         console.log('Sending user to server:', formData);
         const response = await fetch('/api/auth/callback/credentials', {
@@ -29,7 +25,7 @@ async function SignInUserServer({formData}: {formData:FormProps}) {
 } 
 
 interface SignInDataProps{
-    name: string,
+    // name: string,
     email: string,
     password: string,
     csrfToken: string
@@ -45,7 +41,7 @@ async function getServerToken({setFormData}: {setFormData: Dispatch<SetStateActi
 const SigninForm = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({
-        name: '',
+        // name: '',
         email: '',
         password: '',
         csrfToken: ''
@@ -69,7 +65,7 @@ const SigninForm = () => {
         const success = await SignInUserServer({formData})
         console.log(success)
         if(!!success) {
-            router.push("/")
+            router.push("/dashboard")
         }
 
         console.log(formData);
@@ -127,6 +123,10 @@ const SigninForm = () => {
                     </button>
                 </div>
             </form>
+            <p>Don&apos;t have an account? 
+                <Link href={"/signup"} className='text-[blue]'> Sign Up</Link>
+            </p>
+            
         </div>
     );
 };

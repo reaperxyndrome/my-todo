@@ -2,6 +2,7 @@
 "use client"
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import {useRouter} from "next/navigation"
+import Link from 'next/link';
 
 interface FormProps{
     name: string,
@@ -65,9 +66,9 @@ const SignupForm = () => {
             </h2> 
         </div>
         <form onSubmit={handleSubmit} className="w-full max-w-md bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Sign Up</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">Sign Up to My Todo</h2>
             <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                     Username
                 </label>
                 <input
@@ -120,6 +121,9 @@ const SignupForm = () => {
                 </button>
             </div>
         </form>
+        <p>Already have an account? 
+            <Link href={"/signin"} className='text-[blue]'> Sign In</Link>
+        </p>
     </div>
   );
 };

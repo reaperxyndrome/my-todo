@@ -167,9 +167,9 @@ export default function HomePage() {
 
   return (
     <main className='flex flex-col justify-center items-center py-[4rem] '>
-      <section className='flex justify-between w-[600px] mb-10'>
-        <LoginButton/>
-        <SignUpButton/>
+      <section className='flex justify-center w-[600px] mb-10'>
+        {/* <LoginButton/> */}
+        {/* <SignUpButton/> */}
         <LogoutButton/>  
       </section>
       <h1 className='text-5xl font-bold mb-10'>Welcome {userName}</h1>
