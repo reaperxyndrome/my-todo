@@ -1,7 +1,7 @@
 "use client"
 import { twMerge } from 'tailwind-merge';
 import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
-import { RefreshLevelContext, RefreshTasksContext } from './context';
+import { RefreshLevelContext, RefreshTasksContext } from '../context';
 
 interface StylableProps{
     className?: string;

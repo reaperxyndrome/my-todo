@@ -2,7 +2,7 @@
 import AddTaskDialog from './AddTaskDialog';
 import {useCallback, useEffect, useState } from 'react';
 import Tasks from "./Tasks"
-import { RefreshLevelContext, RefreshTasksContext } from './context';
+import { RefreshLevelContext, RefreshTasksContext } from '../context';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 interface StylableProps{

@@ -1,6 +1,6 @@
 "use client"
 import React, {useContext, useState } from "react";
-import { RefreshTasksContext } from "./context";
+import { RefreshTasksContext } from "../context";
 import { TaskProps } from "./Task";
 // import prisma from "@/lib/prisma";
 
