@@ -122,7 +122,9 @@ const TaskReadMode: React.FC<TaskReadMode>= ({task}) => {
     formattedDate = moment(task.date).format('MMMM Do YYYY')
   }
   if(task.time !== ""){
-    formattedTime = moment(task.time, 'hh:mm').format("HH:MM A")
+    formattedTime = moment(task.time, 'hh:mm').format("hh:mm A")
+    console.log("task.time", task.time)
+    console.log("formatted time:", formattedTime)
   }
   
   return(
@@ -150,8 +152,8 @@ const TaskEditMode:React.FC<TaskEditModeProps> = ({stagedTask, eventHandlers}) =
   const formFields = [
     { id: 'title', label: 'Task Name', value: stagedTask.title, type: 'text' },
     { id: 'description', label: 'Description', value: stagedTask.description, type: 'text' },
-    { id: 'date', label: 'Date', value: stagedTask.date, type: 'text' },
-    { id: 'time', label: 'Time', value: stagedTask.time, type: 'text' },
+    { id: 'date', label: 'Date', value: stagedTask.date, type: 'date' },
+    { id: 'time', label: 'Time', value: stagedTask.time, type: 'time' },
   ];
   return(
     <form>
