@@ -39,8 +39,8 @@ const Tasks = () => {
           id={task.id}
           title={task.title}
           description={task.description}
-          date={createdAt.toLocaleDateString()}
-          time={createdAt.toLocaleTimeString()}
+          date={task.date}
+          time={task.time}
           complete={task.complete}
           createdAt={createdAt.toString()}
           updatedAt={updatedAt.toString()}

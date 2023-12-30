@@ -2,6 +2,7 @@
 import { twMerge } from 'tailwind-merge';
 import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { RefreshLevelContext, RefreshTasksContext } from '../context';
+import moment from 'moment';
 
 interface StylableProps{
     className?: string;
@@ -116,13 +117,21 @@ interface TaskReadMode {
   task: TaskProps
 }
 const TaskReadMode: React.FC<TaskReadMode>= ({task}) => {
+  let formattedDate = "", formattedTime = ""
+  if(task.date !== ""){
+    formattedDate = moment(task.date).format('MMMM Do YYYY')
+  }
+  if(task.time !== ""){
+    formattedTime = moment(task.time, 'hh:mm').format("HH:MM A")
+  }
+  
   return(
     <>
       <h3 className='font-bold'>{task.title}</h3>
       <TaskDetail detail={task.description} />
       <div className='flex gap-x-4 justify-end'>
-        <TaskDetail detail={task.date} />
-        <TaskDetail detail={task.time} />  
+        <TaskDetail detail={formattedDate} />
+        <TaskDetail detail={formattedTime} />  
       </div>
     </>
   )
@@ -273,7 +282,7 @@ const Task:React.FC<TaskProps> = ({id, title, description, date, time, complete}
       }
     // }
     // prevComplete.current = editedTask.complete;
-  }, [editedTask])
+  }, [editedTask, id, refreshLevel, refreshTasks])
 
   // useEffect(() => {
   //   if (shouldRefresh) {
