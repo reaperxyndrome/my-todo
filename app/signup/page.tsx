@@ -49,7 +49,7 @@ const SignupForm = () => {
     const success = await PostUserServer({formData})
     console.log(success)
     if(!!success) {
-        router.push("/")
+        router.push("/dashboard")
     }
 
     console.log(formData);
