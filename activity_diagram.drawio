@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-01T09:36:22.092Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="CaOvCHJJ0uhj9iLFvaeS" version="22.1.16" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-01T09:45:57.063Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="fDhL4WCoX3LeatQEfJwS" version="22.1.16" type="github">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="1050" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
@@ -98,7 +98,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-30" value="No account" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="106" y="410" width="74" height="60" as="geometry" />
+          <mxGeometry x="106" y="300" width="74" height="60" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-34" target="DDBRn-jITelrEfrWwjiB-6">
           <mxGeometry relative="1" as="geometry" />
@@ -127,6 +127,47 @@
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-58" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="600" y="440" width="320" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-60" value="&lt;h1&gt;Add Task Form&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="450" width="190" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-70" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-61" target="DDBRn-jITelrEfrWwjiB-69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-61" value="Input task name (required)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="500" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-62" value="Input task desccription" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="550" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-63" value="Input deadline date" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="600" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-64" value="Input deadline time" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="650" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-72" value="false" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-69" target="DDBRn-jITelrEfrWwjiB-58">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="520" />
+              <mxPoint x="940" y="585" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-73" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-69" target="DDBRn-jITelrEfrWwjiB-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="825" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-74" value="true" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="DDBRn-jITelrEfrWwjiB-73">
+          <mxGeometry x="-0.4083" relative="1" as="geometry">
+            <mxPoint y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-69" value="filled?" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="495" width="50" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
