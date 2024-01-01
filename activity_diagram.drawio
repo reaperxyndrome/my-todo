@@ -1,9 +1,12 @@
-<mxfile host="app.diagrams.net" modified="2024-01-01T09:28:48.371Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="OzeeiQOXKsOoadg8TB85" version="22.1.16" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-01T09:36:22.092Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="CaOvCHJJ0uhj9iLFvaeS" version="22.1.16" type="github">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="1050" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="DDBRn-jITelrEfrWwjiB-53" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="240" width="650" height="520" as="geometry" />
+        </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-1" target="DDBRn-jITelrEfrWwjiB-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -28,13 +31,23 @@
         <mxCell id="DDBRn-jITelrEfrWwjiB-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-3" target="DDBRn-jITelrEfrWwjiB-12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="DDBRn-jITelrEfrWwjiB-3" value="Add Task" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="490" y="260" width="80" height="60" as="geometry" />
+        <mxCell id="DDBRn-jITelrEfrWwjiB-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-3" target="DDBRn-jITelrEfrWwjiB-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-3" target="DDBRn-jITelrEfrWwjiB-58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-3" value="Add Task Button" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="350" width="80" height="60" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-6" target="DDBRn-jITelrEfrWwjiB-8">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="DDBRn-jITelrEfrWwjiB-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-6" target="DDBRn-jITelrEfrWwjiB-3">
+        <mxCell id="DDBRn-jITelrEfrWwjiB-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-6" target="DDBRn-jITelrEfrWwjiB-53">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-6" value="Dashboard Page" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -52,13 +65,19 @@
           <mxGeometry x="660" y="150" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-11" value="Edit task" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="620" y="353" width="80" height="60" as="geometry" />
+          <mxGeometry x="950" y="440" width="80" height="60" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-12" target="DDBRn-jITelrEfrWwjiB-11">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-12" target="DDBRn-jITelrEfrWwjiB-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="DDBRn-jITelrEfrWwjiB-12" target="DDBRn-jITelrEfrWwjiB-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-12" value="new task created" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="620" y="260" width="80" height="60" as="geometry" />
+          <mxGeometry x="950" y="350" width="80" height="60" as="geometry" />
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-21" value="Input Email" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="316" y="240" width="70" height="60" as="geometry" />
@@ -96,6 +115,18 @@
         </mxCell>
         <mxCell id="DDBRn-jITelrEfrWwjiB-36" value="fail" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="270" y="510" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-46" value="Delete task" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="950" y="270" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-49" value="Mark task complete" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="350" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-54" value="&lt;h1&gt;Task flow&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DDBRn-jITelrEfrWwjiB-58" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="440" width="320" height="290" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
